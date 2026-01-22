@@ -1,25 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-app = FastAPI()
+from .database import Base, engine
+from .models import Document
 
-class Item(BaseModel):
-    text: str 
-    is_done: bool = False
-
-items: list[Item] = []
-
-@app.get('/')
-def root():
-    return {'Hello' : 'World'}
+app = FastAPI(title= 'RAG knowledge engine')
 
 
-@app.post('/items')
-def create_item(item: Item):
-    items.append(item)
-    return items
+@app.get('/health')
+def health():
+    return {'status' : 'ok'}
 
-@app.get('/items/{id}', response_model=Item)
-def get_item(id: int):
-    if id < len(items):
-        return items[id]
-    raise HTTPException(status_code=404, detail=f'Item {id} not found') 
+Base.metadata.create_all(bind = engine)
