@@ -13,15 +13,15 @@ class Settings(BaseSettings):
 # Database component
 
     DB_HOST: str = 'localhost'
-    DB_PORT: int = 5432
+    DB_PORT: int = 5433
     DB_USER: str = 'postgres'
-    DB_PASS: str = 'password'
+    DB_PASS: str = 'pass'
     DB_NAME: str = 'knowledge_db'
 
     model_config = SettingsConfigDict(env_file='.env')
 
     @property
     def DATABASE_URL(self):
-        return f'postgresql://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
+        return f'postgresql+psycopg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
 
 settings = Settings()
