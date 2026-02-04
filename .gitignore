@@ -1,3 +1,5 @@
+# Ignore filenames while push to origin 
+
 .env
 # Virtual environment
 .venv/
