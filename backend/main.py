@@ -6,6 +6,7 @@ from .columns import Document
 from sqlalchemy.orm import Session
 from langchain_experimental.text_splitter import SemanticChunker
 from .ingestion import chunk_text
+from .search import search
 
 app = FastAPI(title= 'RAG knowledge engine') # Create a fastapi app named app. Later app is the name used to run using uvicorn backend.app:app -reload
 
@@ -27,11 +28,18 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_db)):
         file_bytes=file_bytes,
         filename=file.filename, 
         db=db
-        )
+    )
     
     return {'message': 'PDF uploaded and chunked!'}
     
-    
+@app.post('/search')
+def query_search(query: str, db: Session = Depends(get_db)):
+    search(
+        query, 
+        db=db
+    )
+
+    return {'message' : 'Model response generated!'}
     
     # total_chunks = 0
     # file_content = file.file.read()

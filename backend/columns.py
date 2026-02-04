@@ -24,7 +24,13 @@ class Chunk(Base):
     document = relationship('Document', back_populates='chunks')
     content: Mapped[str] = mapped_column(Text, nullable=False)
     embedding: Mapped[Any] = mapped_column(Vector(768), nullable=False)
-    
+
+class Query(Base):
+    __tablename__ = 'queries'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    embedding: Mapped[Any] = mapped_column(Vector(768), nullable=False)
     
     # content: Mapped[str] = mapped_column(Text, nullable=False)
     # page_number: Mapped[int] = mapped_column(Integer, nullable=True)
